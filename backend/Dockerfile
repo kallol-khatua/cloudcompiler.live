@@ -33,7 +33,7 @@ COPY --from=build /build/target/cloudcompiler_live-backend-websocket.jar ./cloud
 EXPOSE 8009
 
 # Optional: Add a basic healthcheck using curl
-HEALTHCHECK CMD curl -f http://localhost:8080/actuator/health || exit 1
+HEALTHCHECK CMD curl -f http://localhost:8009/actuator/health || exit 1
 
 # Run as non-root user for better security
 RUN adduser -D spring

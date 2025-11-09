@@ -1,0 +1,37 @@
+### Build directories ###
+target/
+build/
+
+### Maven Wrapper ###
+.mvn/
+mvnw
+mvnw.cmd
+
+### IDE files ###
+# STS
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# VS Code
+.vscode/
+
+### Misc ###
+HELP.md

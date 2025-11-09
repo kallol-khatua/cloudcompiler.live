@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+/* index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+ 
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap")
+layer(base);
+
+/* Hide scrollbar but keep scrolling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE/Edge */
+  scrollbar-width: none;     /* Firefox */
+}

@@ -20,8 +20,11 @@ FROM eclipse-temurin:21-jre-alpine
 # Set working directory in final container
 WORKDIR /app
 
+# Install curl for health checks or debugging
+RUN apk add --no-cache curl
+
 # Copy the JAR and any extra resources
-COPY --from=build /build/target/websocket-0.0.1-SNAPSHOT.jar ./app.jar
+COPY --from=build /build/target/cloudcompiler_live-backend-websocket.jar ./cloudcompiler_live-backend-websocket.jar
 
 # (Optional) copy any resources, configs, or static files
 # COPY --from=build /build/path/to/resource ./resource
@@ -29,5 +32,12 @@ COPY --from=build /build/target/websocket-0.0.1-SNAPSHOT.jar ./app.jar
 # Expose default HTTP port
 EXPOSE 8009
 
+# Optional: Add a basic healthcheck using curl
+HEALTHCHECK CMD curl -f http://localhost:8080/actuator/health || exit 1
+
+# Run as non-root user for better security
+RUN adduser -D spring
+USER spring
+
 # Set entrypoint
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "/app/cloudcompiler_live-backend-websocket.jar"]

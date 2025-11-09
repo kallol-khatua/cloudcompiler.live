@@ -7,6 +7,7 @@ phases:
       - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 897722710115.dkr.ecr.ap-south-1.amazonaws.com
       - REPOSITORY_URI=897722710115.dkr.ecr.ap-south-1.amazonaws.com/cloudcompiler_live-backend-websocket
       - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+      - cd backend
   build:
     commands:
       - echo Build started on `date`

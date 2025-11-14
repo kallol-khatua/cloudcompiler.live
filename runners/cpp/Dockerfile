@@ -14,11 +14,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     make \
     g++ \
     build-essential \
+    procps \
     && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get install -y nodejs \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
-
 
 # Set workdir
 WORKDIR /usr/src/app
@@ -27,18 +27,21 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install --omit=dev
 
-# Copy main.sh, script.js, compile-java-code.js, run-java-code.js and send-output.js
-COPY poller.js .
-COPY runner.js .
-COPY script.js .
-COPY redis-subscriber.js .
-COPY compile-code.js .
-COPY run-code.js .
-COPY send-output.js .
-COPY main.sh .
+# Copy application files
+COPY . .
+
+# Create jobs directory
+RUN mkdir -p /usr/src/app/jobs
 
 # Make shell script executable
 RUN chmod +x main.sh
+
+# Set environment variables
+ENV NODE_ENV=production
+
+# Health check - verify main process is running
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+  CMD pgrep -f "node poller.js" > /dev/null || exit 1
 
 # Entrypoint
 ENTRYPOINT ["./main.sh"]
